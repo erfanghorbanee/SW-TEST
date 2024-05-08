@@ -1,0 +1,24 @@
+name: Build and Test Java Project
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on pushes to the 'main' branch
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  # Checks out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'  # Set up Java 8 using AdoptOpenJDK
+          distribution: 'adopt'  # AdoptOpenJDK is a popular choice; you can also use 'temurin', 'zulu', etc.
+
+      - name: Build and test with Maven
+        run: mvn clean install  # This command will build your project and run tests
+        # If you need to skip tests for some reason, you can use 'mvn clean install -DskipTests'
